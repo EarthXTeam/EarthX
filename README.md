@@ -38,6 +38,20 @@ EarthX turns that problem into an investigation. You pick what you want to look 
 
 That middle verdict is the one we care about most. A trend that misses significance isn't a failure — it's an open case. Telling a user *"come back in 11 years"* is more honest, and far more interesting, than *"not significant."*
 
+## 🌟 What Makes EarthX Different
+
+- **We refuse the binary.** Most trend tools answer one question: significant, yes or no. That throws away the most interesting answer in science — *not yet*. EarthX has three verdicts instead of two, and the third one is where the real work is.
+
+- **A null result becomes a timeline.** When a trend fails significance, every other tool stops. EarthX keeps going and tells you how many more years of observation it would take. "No evidence" closes a conversation; "come back in 11 years" starts one.
+
+- **The statistics can't be misread, because they're pre-translated.** Verdicts leave the analysis layer already written in plain language. The interface displays them; it never interprets them. A p-value can be misunderstood by a user — a sentence written by the statistician cannot.
+
+- **Our regions are chosen to disagree with each other.** The Mediterranean, the Sahel and the Amazon don't trend the same way, and that's the point. A user who investigates all three learns the lesson the challenge actually sets: the same process can push a variable in opposite directions depending on where you stand.
+
+- **Built for the curious, not the credentialed.** You don't need to know that evapotranspiration is a variable, or what it's called in a NASA data catalogue. You answer a few questions about what you want to investigate, and EarthX finds the variables for you.
+
+- **Honest about doubt by design.** Confidence bands are drawn, not hidden. Open cases stay open. Uncertainty is part of the interface rather than a footnote — because teaching people to read evidence honestly is the actual goal.
+
 ## ✨ Features
 
 - **Case-file framing** — every result is a verdict in plain language, never a bare p-value.
@@ -50,7 +64,7 @@ That middle verdict is the one we care about most. A trend that misses significa
 - **Source** — NASA Earth observation data, accessed through [Giovanni](https://giovanni.gsfc.nasa.gov/giovanni/)
 - **Variables** — precipitation, evapotranspiration, soil moisture, surface temperature
 - **Regions** — Mediterranean Basin, Sahel, Amazon Basin
-- **Period** — 1980 to 2024, monthly
+- **Period** — 1980 to 2025, monthly
 - **Grid** — 0.75°
 
 Those three regions were chosen deliberately. The same water-balance variables trend in **different directions** in each one, which is exactly the complication the challenge describes: one process, opposite signs, depending on where you look.
@@ -64,6 +78,25 @@ Those three regions were chosen deliberately. The same water-balance variables t
 5. **Visualise** — a trend map coloured by slope per decade, and a regional case-file chart showing the monthly series with its confidence band.
 
 The frontend never interprets statistics. Every verdict arrives from the analysis layer as both a machine-readable state and a plain-language sentence, so the science and the storytelling can't drift apart.
+
+## ⚠️ Limitations
+
+We'd rather state these plainly than let a judge find them.
+
+- **Linear trends only.** EarthX fits a straight line through time. Real Earth system changes are often non-linear — they accelerate, plateau, or shift at a breakpoint. A curved trend can produce a weak linear slope and get filed as "no evidence" when something real is happening.
+- **Trends, not causes.** EarthX tells you *what* is changing, *where*, and *by how much*. It does not tell you *why*. Linking a trend to the process driving it still requires a human with domain knowledge.
+- **Coarse spatial resolution.** At 0.75°, each grid cell covers roughly 80 km. Local effects — a single catchment, a city, an irrigation scheme — are averaged away. EarthX sees regions, not places.
+- **Monthly data only.** Short-lived events such as flash droughts or extreme rainfall days are invisible at monthly resolution.
+- **A static snapshot.** The data was downloaded once and bundled with the project. EarthX does not currently query NASA services live, so the record ends where our download ended.
+- **Limited scope.** Four variables across three regions. The variable selection reflects a water-balance focus, not the full breadth of what NASA measures.
+- **Built in 48 hours.** Some of the above are deliberate scope decisions, some are the hackathon clock. We've tried to be honest about which is which.
+
+## 🛣️ What's Next
+
+- **More regions.** The pipeline is region-agnostic — adding one is a data pull and a config entry, not a rewrite. Polar, monsoon and high-altitude regions are the obvious next cases.
+- **More variables.** Vegetation indices, snow cover, streamflow and aerosols would let EarthX investigate questions beyond the water balance.
+- **More case files.** Each region and variable pairing is a new investigation. We want a library of them, so a user arrives to open cases rather than a blank form.
+- **Yearly data updates.** An annual refresh against the latest NASA releases, so every record grows by a year and open cases move closer to a verdict. This is the feature that makes years-to-significance more than a thought experiment — come back next year and some cases will have closed.
 
 ## 📁 Repository Structure
 
@@ -103,14 +136,14 @@ _Full setup instructions to follow._
 Five third-year data science students.
 
 - **Celine** — data collection and cleaning
-- **Reina** — statistical analysis
-- **Mahdi** — web development
-- **Hussein** — web development
-- **Fatima** — visualization and web development
+- **Reina** — statistical analysis, data integration
+- **Mahdi** — web development, data collection and cleaning
+- **Hussein** — web development, data integration, team directing
+- **Fatima** — data visualization, team directing
 
 ## 🙏 Acknowledgements
 
-Data courtesy of NASA's Earth science missions and models, accessed through Giovanni. Built in 48 hours for the NASA Space Apps Challenge 2026.
+Data courtesy of NASA's Earth science missions and models, accessed through Merra-2. Built in 48 hours for the NASA Space Apps Challenge 2026.
 
 ## 📄 License
 
