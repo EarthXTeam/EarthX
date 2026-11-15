@@ -1,0 +1,602 @@
+/*
+ * Minimal Leaflet 1.9 stylesheet — only the rules this map actually needs
+ * (panes, positioning, zoom control, attribution). Shipped rather than loaded
+ * from a CDN so the map still works where third-party stylesheets are blocked.
+ * It covers no popups, markers or tooltips, because this map uses none.
+ */
+
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.leaflet-container {
+  overflow: hidden;
+  position: relative;
+  background: var(--beige);
+  -webkit-tap-highlight-color: transparent;
+  font:
+    12px/1.5 Figtree,
+    system-ui,
+    sans-serif;
+}
+
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+}
+
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-tile {
+  filter: inherit;
+  visibility: hidden;
+}
+.leaflet-tile-loaded {
+  visibility: inherit;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+.leaflet-tile-pane {
+  z-index: 200;
+}
+.leaflet-overlay-pane {
+  z-index: 400;
+}
+.leaflet-shadow-pane {
+  z-index: 500;
+}
+.leaflet-marker-pane {
+  z-index: 600;
+}
+.leaflet-tooltip-pane {
+  z-index: 650;
+}
+.leaflet-popup-pane {
+  z-index: 700;
+}
+
+.leaflet-zoom-animated {
+  transform-origin: 0 0;
+}
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+  transition: none;
+}
+
+.leaflet-grab {
+  cursor: grab;
+}
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-grab .leaflet-interactive {
+  cursor: grabbing;
+}
+
+/* controls */
+.leaflet-control-container .leaflet-top,
+.leaflet-control-container .leaflet-bottom {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+}
+.leaflet-top {
+  top: 0;
+}
+.leaflet-bottom {
+  bottom: 0;
+}
+.leaflet-left {
+  left: 0;
+}
+.leaflet-right {
+  right: 0;
+}
+
+.leaflet-control {
+  position: relative;
+  z-index: 800;
+  pointer-events: auto;
+  float: left;
+  clear: both;
+}
+.leaflet-right .leaflet-control {
+  float: right;
+  margin-right: 10px;
+}
+.leaflet-left .leaflet-control {
+  margin-left: 10px;
+}
+.leaflet-top .leaflet-control {
+  margin-top: 10px;
+}
+.leaflet-bottom .leaflet-control {
+  margin-bottom: 10px;
+}
+
+.leaflet-bar {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(38, 59, 45, 0.18);
+}
+.leaflet-bar a {
+  display: block;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--forest);
+  font:
+    17px/28px Figtree,
+    system-ui,
+    sans-serif;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.leaflet-bar a:last-child {
+  border-bottom: 0;
+}
+.leaflet-bar a:hover {
+  background: var(--beige);
+}
+.leaflet-bar a.leaflet-disabled {
+  color: var(--none);
+  cursor: default;
+}
+
+.leaflet-control-attribution {
+  background: color-mix(in srgb, var(--cream) 86%, transparent);
+  padding: 2px 6px;
+  font-size: 11px;
+  color: var(--mut);
+  border-radius: 3px 0 0 0;
+}
+.leaflet-control-attribution a {
+  color: var(--forest);
+}
+
+/*
+ * EarthX components — the map and the chart.
+ */
+
+.earthx-map {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  background: var(--beige);
+  border-radius: 12px;
+}
+
+.earthx-cell-canvas {
+  image-rendering: pixelated;
+}
+
+/* ---------------------------- the key panel ---------------------------- */
+/*
+ * Collapsible, because on a narrow screen it sits on top of the cells it is
+ * describing. One button does both directions; collapsed, only that button
+ * is left on the map.
+ */
+.earthx-legend {
+  /* belt and braces: the corner this sits in is pointer-events:none, and the
+     panel is interactive, so it asserts its own rather than relying only on
+     the leaflet-control class surviving every redraw */
+  pointer-events: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 11px;
+  box-shadow: 0 2px 8px rgba(38, 59, 45, 0.14);
+  font:
+    13px/1.35 Figtree,
+    system-ui,
+    sans-serif;
+  color: var(--fg);
+  max-width: 266px;
+}
+.earthx-legend.collapsed {
+  padding: 5px 6px;
+}
+
+.earthx-legend-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.earthx-legend-name {
+  font-weight: 700;
+  text-transform: capitalize;
+  line-height: 1.25;
+}
+.earthx-legend-name em {
+  display: block;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--mut);
+  font-size: 12px;
+  text-transform: none;
+}
+.earthx-legend.collapsed .earthx-legend-name {
+  display: none;
+}
+
+.earthx-legend-toggle {
+  margin-left: auto;
+  font:
+    600 12px Figtree,
+    system-ui,
+    sans-serif;
+  color: var(--forest);
+  background: color-mix(in srgb, var(--beige) 65%, var(--card));
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.earthx-legend-toggle:hover {
+  border-color: var(--terra);
+  color: var(--terra);
+}
+.earthx-legend.collapsed .earthx-legend-toggle {
+  margin-left: 0;
+}
+
+.earthx-legend-body {
+  margin-top: 8px;
+}
+.earthx-legend-sub {
+  color: var(--mut);
+  font-size: 12px;
+  margin: 8px 0 2px;
+}
+.earthx-legend-count {
+  color: var(--mut);
+  font-size: 11.5px;
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.earthx-ramp {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.earthx-ramp i {
+  display: block;
+  width: 16px;
+  height: 14px;
+  border-top: 1px solid rgba(38, 59, 45, 0.18);
+  border-bottom: 1px solid rgba(38, 59, 45, 0.18);
+}
+.earthx-ramp-zero {
+  width: 2px !important;
+  background: var(--forest);
+  height: 18px !important;
+  border: 0 !important;
+}
+.earthx-ramp-end {
+  font-size: 12px;
+  color: var(--mut);
+  padding: 0 4px;
+  white-space: nowrap;
+}
+
+.earthx-ramp-words {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--mut);
+  margin-top: 2px;
+  padding: 0 26px;
+}
+
+/* the three verdict rows double as filters */
+.earthx-keys {
+  display: grid;
+  gap: 3px;
+}
+.earthx-key {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  font:
+    13px/1.3 Figtree,
+    system-ui,
+    sans-serif;
+  color: var(--fg);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 4px 6px;
+  cursor: pointer;
+}
+.earthx-key:hover {
+  border-color: var(--line);
+  background: color-mix(in srgb, var(--beige) 40%, transparent);
+}
+.earthx-key.off {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+.earthx-key-text em {
+  display: block;
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--mut);
+}
+.earthx-key-n {
+  margin-left: auto;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--mut);
+  font-variant-numeric: tabular-nums;
+}
+.earthx-key-box {
+  width: 16px;
+  height: 14px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(38, 59, 45, 0.25);
+}
+/*
+ * The verdict keys show the PATTERN only, in one neutral tone. Tinting them
+ * with the ramp would say "confirmed means falling", which is the one thing
+ * this map is built not to imply: colour carries direction, pattern carries
+ * confidence, and the two are independent.
+ */
+.earthx-key-box.k-conf {
+  background: #6b7a6c;
+}
+.earthx-key-box.k-open {
+  background: #6b7a6c;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(34, 53, 42, 0.75) 0 1.2px,
+    transparent 1.2px 4px
+  );
+}
+.earthx-key-box.k-none {
+  background: #6b7a6c;
+  opacity: 0.45;
+}
+
+.earthx-slider {
+  display: block;
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--mut);
+}
+.earthx-slider b {
+  color: var(--forest);
+}
+.earthx-slider input {
+  width: 100%;
+  margin-top: 3px;
+  accent-color: var(--terra);
+}
+
+/* ------------------------------ tooltip ------------------------------ */
+.earthx-tip {
+  position: absolute;
+  z-index: 650;
+  pointer-events: none;
+  background: var(--forest);
+  color: var(--cream);
+  padding: 7px 9px;
+  border-radius: 6px;
+  font:
+    13px/1.4 Figtree,
+    system-ui,
+    sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(38, 59, 45, 0.3);
+}
+.earthx-tip-pos {
+  color: var(--sand);
+  font-size: 12px;
+}
+.earthx-tip-hint {
+  color: color-mix(in srgb, var(--sand) 80%, var(--cream));
+  font-size: 11.5px;
+  font-style: italic;
+}
+
+/* ------------------------------- chart ------------------------------- */
+.earthx-chart {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  font:
+    14px/1.45 Figtree,
+    system-ui,
+    sans-serif;
+  color: var(--fg);
+}
+
+.earthx-chart-text {
+  flex: 0 0 auto;
+  padding: 0 0 8px;
+}
+.earthx-chart-plot {
+  flex: 1 1 auto;
+  min-height: 240px;
+}
+
+.earthx-chart-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.earthx-badge {
+  display: inline-block;
+  color: var(--cream);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  padding: 3px 9px;
+  border-radius: 5px;
+}
+
+.earthx-chart-what {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.earthx-chart-rate {
+  color: var(--fg);
+}
+.earthx-chart-ci {
+  color: var(--mut);
+}
+
+.earthx-chart-verdict {
+  margin-top: 4px;
+  color: var(--fg);
+}
+.earthx-chart-extra {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--open);
+  font-weight: 600;
+}
+
+/* ------------- how the two sit inside the evidence card ------------- */
+#xmap,
+.chartwrap {
+  height: 440px;
+  min-width: 0;
+}
+
+/* the chart and the line above it saying which series is on it */
+.chartwrap {
+  display: flex;
+  flex-direction: column;
+}
+#xchart {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+.chartscope {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 7px 11px;
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--beige) 35%, var(--card));
+  font-size: 13.5px;
+  color: var(--mut);
+  min-height: 38px;
+}
+.chartscope b {
+  color: var(--forest);
+}
+.cshint {
+  font-style: italic;
+  opacity: 0.85;
+}
+.csback {
+  margin-left: auto;
+  font:
+    600 13px Figtree,
+    sans-serif;
+  color: var(--terra);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.csback:hover {
+  border-color: var(--terra);
+}
+
+#xmap {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.evid-foot {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: var(--mut);
+  margin-top: 4px;
+  line-height: 1.7;
+}
+#filtnote {
+  color: var(--terra);
+  font-weight: 600;
+}
+
+.scope-back {
+  margin-left: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--terra);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.scope-back:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--mut);
+}
+
+@media (max-width: 900px) {
+  #xmap,
+  .chartwrap {
+    height: 360px;
+  }
+  .earthx-legend {
+    max-width: 220px;
+  }
+}
+
+.scope-note {
+  margin-left: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--mut);
+}

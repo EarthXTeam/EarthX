@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>EarthX · Earth System Trend Detective</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Figtree:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/earthx.css" />
+  </head>
+  <body>
+    <header class="site-head">
+      <div class="wrap">
+        <a class="brand" href="#top">🜨 EarthX</a>
+        <nav>
+          <a href="#start">Region</a><a href="#vars">Suspects</a
+          ><a href="#method">How we test</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <div class="wrap">
+        <!-- Opening: the question, the region picker and the globe together -->
+        <section id="start" class="start">
+          <div class="intro">
+            <p class="eyebrow">
+              NASA Space Apps 2026 · Be an Earth System Trend Detective
+            </p>
+            <h1>Is the water on land <span>really changing?</span></h1>
+            <p class="lede">
+              You run the investigation. Pick a place, commit to what you think
+              45 years of climate data should show, read the evidence cell by
+              cell, and call the verdict yourself — then see what the test
+              says.
+            </p>
+            <div class="q" id="qlabel">Where should we investigate?</div>
+            <div class="chips" id="regions"></div>
+            <p class="pick" id="pick">
+              Three regions, four suspects each. Choose one to open the case.
+            </p>
+          </div>
+
+          <div class="globe-box">
+            <div class="globe-stage">
+              <canvas id="globe" aria-hidden="true"></canvas>
+            </div>
+            <div class="globe-cap" id="gcap">
+              <b>Earth, 1981–2025</b>
+              <span>Select a region and the globe turns to it.</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- The four suspects -->
+        <section id="vars">
+          <h2>Four suspects, one chain</h2>
+          <p class="lede">
+            Heat is the driver. It pulls harder on the water below it: rain is
+            the supply, evapotranspiration is the loss, soil water is what is
+            left. A place can have perfectly steady rain and still dry out, so
+            each suspect is tested on its own and then read together.
+          </p>
+          <p class="vprog" id="vprog"></p>
+          <div class="vgrid" id="vgrid"></div>
+        </section>
+
+        <section id="method">
+          <h2>How we test, and what to trust</h2>
+          <div class="card">
+            <p style="margin-top: 0">
+              <b>Mann-Kendall test.</b> It checks whether yearly values keep
+              moving in one direction more often than chance allows. We report
+              the Sen slope (the typical rate of change) and a p-value. Below
+              0.05 we call it <b>confirmed</b>. Visible but not yet significant
+              is <b>case open</b>, with a rough estimate of the extra years of
+              data needed. No visible direction is <b>no evidence</b>.
+            </p>
+            <p style="margin-bottom: 0">
+              We show non-significant results on purpose: some trends only need
+              a longer record. No forecasts and no machine learning, because a
+              forecast cannot be checked here.
+            </p>
+          </div>
+          <div class="card" style="margin-top: 18px">
+            <p style="margin-top: 0">
+              <b>Every case runs in three steps, in this order.</b>
+            </p>
+            <ol class="howsteps">
+              <li>
+                <b>Mechanism.</b> The physics that would produce a trend, before
+                any data is on screen. You commit to a prediction.
+              </li>
+              <li>
+                <b>Evidence.</b> The grid-cell map and the regional series, with
+                the fitted trend line withheld. You inspect cells, keep a
+                notebook, and call the verdict for the region.
+              </li>
+              <li>
+                <b>Reading.</b> Now the test's own verdict, the numbers, how
+                your two calls compared, and what would overturn the result.
+              </li>
+            </ol>
+            <p style="margin-bottom: 0" class="rsub">
+              The order matters. A verdict you predicted and then tested is a
+              thing you understand; a verdict handed to you on arrival is a
+              thing you scroll past.
+            </p>
+          </div>
+          <div class="note">
+            <b>Honest limits.</b> The numbers on this site come from NASA
+            monthly data retrieved through Giovanni, 1981–2025, averaged onto a
+            0.75° grid. Precipitation and temperature are observation-based;
+            evapotranspiration and soil moisture are land-model outputs
+            constrained by observations, not direct measurements. Neighbouring
+            cells are not independent, and a different product or window can
+            give a different answer, so every verdict here is a trend <i>in
+            this dataset</i> — a lead worth following, not a settled fact about
+            the region.
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        EarthX · NASA Space Apps 2026 · Be an Earth System Trend Detective ·
+        Data: NASA via Giovanni, monthly, 1981–2025, 0.75° grid
+      </div>
+    </footer>
+
+    <!-- Case file: opens over the site when a suspect is chosen -->
+    <div
+      id="results"
+      class="results"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="rq"
+      hidden
+    >
+      <div class="rbar">
+        <div class="wrap">
+          <button class="back" id="back">← Back to the suspects</button>
+          <span class="rmeta" id="rmeta"></span>
+        </div>
+      </div>
+      <div class="rbody" id="rbody"></div>
+    </div>
+
+    <!-- The map and chart libraries. Both are needed before a case opens. -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+
+    <script src="js/utils.js"></script>
+    <script src="js/geo.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/load.js"></script>
+    <script src="js/earthx-map.js"></script>
+    <script src="js/earthx-chart.js"></script>
+    <script src="js/globe.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
