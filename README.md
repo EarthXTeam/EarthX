@@ -13,9 +13,9 @@ Turning NASA Earth observation data into case files — with verdicts.</p>
 </p>
 
 <p>
-<a href="ADD_LIVE_DEMO_LINK_HERE"><b>🔗 Live Demo</b></a>
+<a href="https://earthhx.netlify.app"><b>🔗 Live Demo</b></a>
 ·
-<a href="ADD_VIDEO_LINK_HERE"><b>🎥 Demo Video</b></a>
+<a href="https://youtu.be/unJlsUsO2i8?si=QiSyGrpai2o8-Z8L"><b>🎥 Demo Video</b></a>
 ·
 <a href="https://www.spaceappschallenge.org/2026/challenges/earth-system-trend-detective/"><b>📋 The Challenge</b></a>
 </p>
